@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class=""row>
+        <div class="col-md-4">
+                <div class="card card-body">
+                    <h2 class="text-primary">Categories for inspiration</h2>
+                    <p>Click dropdown to see all ever created Categories for your inspiration.</p>
+                    <p>Then select a Category and click Submit. If this category appears in results, this means that you already have some Notes under this category.</p>
+                    <form method="get">
+                        {% csrf_token %}
+                        {{filterbycategory.form}}
+                        <button class="btn btn-primary btn-sm" type="submit">Submit</button>
+                    </form>
+
+                        {% if categories %}
+                            <p>By the way, you have already used the following Categories for your Notes:</p>
+                                {% for note in filterbycategory.qs %}
+                                    <li>{{ note.category }} // {{ note.name }}: {{ note.description | safe }}</li>
+                                {% endfor %}
+                        {% else %}
+                            <p>Here are no Categories yet.</p>
+                        {% endif %}
+                    <br>
+                    <br>
+                    <a class="btn btn-primary btn-sm" href="{% url 'create_category' %}">Create New Category</a>
+                    <br><br>
+                    {% if categories %}
+                    <h1 class="text-primary">Your Categories</h1>
+                    <br>
+                    <p>You have created following Categories. Now you can update, delete or use them for your Notes:</p>
+                    <table>
+                        <tr>
+                            <th>Category title</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ category.title }}</td>
+                            <td><a class="btn btn-sm btn-primary" href="{% url 'update_category' category.id %}">Update</a></td>
+                            <td><a class="btn btn-sm btn-danger" href="{% url 'delete_category' category.id %}">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                    {% else %}
+                        <p>Here are no Categories yet.</p>
+                    {% endif %}
+                </div>
+        </div>
+</div>
+    <div class="col-md-4">
+        <nav aria-label="...">
+            {% if categories.has_other_pages %}
+                <ul class="pagination pagination-sm justify-content-end">
+                    {% for i in categories.paginator.page_range %}
+                        {% if categories.number == i %}
+                            <li class="page-item active">
+                                <a class="page-link">{{ i }}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </nav>
+    </div>
+
+{% endblock %}
+

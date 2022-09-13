@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<div class=""row>
+    <div class="col-md-6">
+        <div>
+                <div class="card card-body">
+                    <br>
+                    <a class="btn btn-primary btn-sm" href="{% url 'create_note' %}">Create New Note</a>
+                    <br><br>
+
+                    {% if notes %}
+                    <h1 class="text-primary">Notes</h1>
+                    <br>
+                    <p>You have added following Notes to your Notebook:</p>
+
+                    <table>
+                        <tr>
+                            <th>Note picture</th>
+                            <th>Note date</th>
+                            <th>Note name</th>
+                            <th>Note description</th>
+                            <th>Note category</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>
+                      {% for note in notes %}
+                       <tr>
+                           <td>
+                            {% if note.photo %}
+                              <img src="{{ note.photo.url }}" class="card-img-top" alt="..." width="50" height="170">
+                            {% else %}
+                              <img src="/media/covers/noimage.png" class="card-img-top" alt="No Image Added" width="50" height="170">
+                            {% endif %}
+                           </td>
+
+                           <td>{{ note.date }}</td>
+                           <td>{{ note.name }}</td>
+                           <td>{{ note.description | safe }}</td>
+                           <td>{{ note.category }}</td>
+                           <td><a class="btn btn-sm btn-primary" href="{% url 'update_note' note.id %}">Update</a></td>
+                           <td><a class="btn btn-sm btn-danger" href="{% url 'delete_note' note.id %}">Delete</a></td>
+                       </tr>
+                      {% endfor %}
+                    </table>
+
+
+                    {% else %}
+                      <p>Here are no Notes yet.</p>
+                    {% endif %}
+                </div>
+        </div>
+    </div>
+</div>
+
+
+    <div class="col-md-6">
+    <nav aria-label="...">
+        {% if notes.has_other_pages %}
+            <ul class="pagination pagination-sm justify-content-end">
+                {% for i in notes.paginator.page_range %}
+                    {% if notes.number == i %}
+                        <li class="page-item active">
+                            <a class="page-link">{{ i }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </nav>
+    </div>
+
+{% endblock %}

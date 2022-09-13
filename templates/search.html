@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Search results for Note that contains "{{query}}" in Title :</h1>
+  </br>
+  {% if notes %}
+  <ul>
+    {% for note in notes %}
+      <li>{{ note.date }} // {{ note.name }}: {{ note.description | safe }} // {{ note.category }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>Oops. Nothing found :(</p>
+    <p>Please adjust your keyword and try again</p>
+  {% endif %}
+
+  {% endblock %}

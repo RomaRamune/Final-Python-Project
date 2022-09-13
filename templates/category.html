@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container category">
+    <h4>{{ category.title }}</h4>
+    <hr/>
+    <p></p>
+    </hr>
+    </br>
+    <h5>You have following Notes for {{ category.title }} Category:</h5>
+    {% for i in category.notes.all %}
+       <li>
+           {% if note.photo %}
+              <img src="{{ note.photo.url }}" class="card-img-top" alt="..." width="50" height="170">
+            {% else %}
+              <img src="/media/covers/noimage.png" class="card-img-top" alt="No Image Added" width="50" height="170">
+            {% endif %}
+           {{ i.date }} // {{ i.name }}: {{ i.description | safe }}
+       </li>
+    {% endfor %}
+    </div>
+{% endblock %}

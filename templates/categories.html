@@ -16,7 +16,7 @@
                         {% if categories %}
                             <p>By the way, you have already used the following Categories for your Notes:</p>
                                 {% for note in filterbycategory.qs %}
-                                    <li>{{ note.category }}</li>
+                                    <li>{{ note.category }} // {{ note.name }}: {{ note.description | safe }}</li>
                                 {% endfor %}
                         {% else %}
                             <p>Here are no Categories yet.</p>

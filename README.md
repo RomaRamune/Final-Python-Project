@@ -1,6 +1,8 @@
 # Final-Python-Project
 Final Full-Stack with Python Project // Django Library
 
+Please download the files. Create virtual environment and install requirements. Make migrations, migrate and runserver before using it.
+
 It is a Notebook app, with folowing functions:
 User can Register;
 Registerred user can Login;
